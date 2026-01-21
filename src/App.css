@@ -1,0 +1,209 @@
+.app-shell {
+  display: grid;
+  grid-template-columns: 220px 1fr 320px;
+  grid-template-rows: 1fr 160px;
+  grid-template-areas:
+    "left center right"
+    "timeline timeline timeline";
+  height: 100vh;
+  background: #f4f5f7;
+  color: #1f2a35;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.panel {
+  padding: 16px;
+  overflow: auto;
+  background: #ffffff;
+  border-right: 1px solid #d6dde5;
+}
+
+.toolbox {
+  grid-area: left;
+}
+
+.inspector {
+  grid-area: right;
+  border-left: 1px solid #d6dde5;
+}
+
+.canvas-panel {
+  grid-area: center;
+  background: linear-gradient(135deg, #f8fafc 0%, #eef2f7 100%);
+  padding: 16px;
+}
+
+.canvas-shell {
+  width: 100%;
+  height: 100%;
+  border: 2px solid #d0d7df;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.timeline-panel {
+  grid-area: timeline;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: #1f2a35;
+  color: #f3f5f7;
+}
+
+.timeline-panel input[type='range'] {
+  width: 100%;
+}
+
+.timeline-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.time-readout {
+  margin-left: auto;
+  font-weight: 600;
+}
+
+.tool-section {
+  margin-bottom: 16px;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.tool-grid button,
+.timeline-controls button,
+.action-card button,
+.add-row,
+.button-row button {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: #2d3b49;
+  color: #fff;
+  cursor: pointer;
+}
+
+.tool-grid button.active {
+  background: #e67e22;
+}
+
+.tool-hint {
+  font-size: 12px;
+  color: #6b7683;
+}
+
+.panel-section {
+  margin-bottom: 20px;
+}
+
+.panel-subsection {
+  margin-top: 12px;
+}
+
+.panel-subsection h5 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7683;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.field-row input,
+.field-row select,
+.import-export textarea {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #c6ced8;
+  background: #fff;
+}
+
+.selection-card,
+.action-card {
+  border: 1px solid #dde3ea;
+  padding: 10px;
+  border-radius: 8px;
+  background: #f8fafc;
+  margin-bottom: 12px;
+}
+
+.action-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.action-card button {
+  background: #b33939;
+}
+
+.add-row {
+  width: 100%;
+  background: #2d3b49;
+}
+
+.import-export textarea {
+  min-height: 120px;
+  resize: vertical;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.keyframe-list {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.keyframe-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) 80px;
+  gap: 6px;
+  align-items: center;
+}
+
+.keyframe-row input {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #c6ced8;
+}
+
+.keyframe-row button {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 8px;
+  background: #b33939;
+  color: #fff;
+  cursor: pointer;
+}
+
+.button-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.muted {
+  color: #6b7683;
+}
+
+h2,
+h3,
+h4 {
+  margin: 0 0 8px;
+}

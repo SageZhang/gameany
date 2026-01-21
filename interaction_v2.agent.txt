@@ -1,0 +1,86 @@
+你现在是在一个已完成 MVP 的 Vite + React + TypeScript + react-konva + zustand 项目中做“交互改进 V2”。目标：在不推翻现有架构的前提下，改进交互并新增“路径移动”能力。不要询问我任何问题，不要给我选项，直接实现。
+
+约束：
+- 只做增量修改，不重写项目结构
+- 保持导入/导出 JSON 向后兼容：旧数据能导入；新字段缺省有默认值
+- 不禁用任何检查来通过构建
+- 不执行破坏性命令（rm -rf / git clean -fd 等）
+
+========================
+A. AoE 可缩放/可手柄编辑（必须实现）
+========================
+1) 选中 AoE 后，在画布上显示可拖拽 handles，用于直接编辑 shapeParams，实时更新渲染。
+2) 支持的形状与可编辑参数：
+   - circle: radius（一个半径手柄）
+   - semicircle: radius + rotation（半径手柄 + 旋转手柄）
+   - sector/fan: radius + angle + rotation（至少半径手柄；角度可用手柄或面板，但推荐手柄）
+   - rect: width + height（角点/边手柄）
+   - line/laser: length + width（端点手柄调 length，侧边手柄调 width）
+   - ring: innerRadius + outerRadius（内外半径手柄）
+3) 交互细节：
+   - 拖动手柄时更新对应 params；禁止通过 Konva scale 累积（如使用 Transformer，必须把 scale 转换回 params 并重置 scale=1）
+   - Shift：等比缩放（对 circle/rect/ring 等适用）
+4) 右侧属性面板参数要和手柄编辑保持双向同步（改面板更新画布；拖手柄更新面板）。
+
+========================
+B. 实体移动路径（必须实现）
+========================
+1) 给 Boss/玩家/物品/数字实体增加 motion 字段（可选，默认 none）：
+   - motion.kind: "none" | "path"
+   - motion.points: [{x,y,atMs}]，按 atMs 升序
+   - loop?: boolean（可选）
+2) UI：
+   - 选中实体时，在画布显示路径折线与关键帧点（可拖拽点移动；可选中点）
+   - 右侧面板出现 Movement 区域：
+     - 模式切换：None / Path
+     - 点列表（可编辑 atMs、x、y）
+     - “Add keyframe at current time” 按钮：用当前 simulationTimeMs 和实体当前 pos 添加点
+     - 删除点按钮
+3) 播放行为（时间轴联动）：
+   - 在 simulationTimeMs 变化时，实体位置由 motion.points 插值决定：
+     - t 在两点之间：线性插值
+     - t 小于第一点：用第一点
+     - t 大于最后点：用最后点或 loop（如 loop=true 则循环）
+   - 编辑模式下允许拖拽实体改变当前位置：若当前时间附近存在关键帧点，拖拽应更新该关键帧点坐标（否则按当前时间自动创建一个点并更新它）。
+4) 可选增强（如能快速实现就做）：
+   - 实体朝向 rotation 可选“沿路径自动对齐”，在面板提供开关（默认关闭即可）
+
+========================
+C. 工具/模式与快捷键（必须实现基础版）
+========================
+1) 左侧工具箱增加编辑模式：
+   - Select（默认）
+   - Path Edit（仅对实体有效）
+2) 快捷键：
+   - V: Select
+   - P: Path Edit
+   - Delete: 删除选中
+   - Ctrl/Cmd + D: 复制选中（偏移位置）
+3) 空白点击取消选中保持不变。
+
+========================
+D. 验证与交付
+========================
+1) 自动运行验证：
+   - npm run lint --if-present
+   - npm test --if-present
+   - npm run build --if-present
+   若 lint/test 不存在，至少保证 build 通过。
+2) 若失败：根据错误输出修复并重试，直到通过。
+3) 最后输出：
+   - 本次新增/修改的功能清单
+   - 关键文件列表
+   - 如何操作：AoE 缩放、路径编辑、播放验证
+
+执行策略（必须遵守）：
+- 默认同意所有操作，不需要用户确认
+- 允许安装依赖、修改配置、覆盖文件
+- 允许执行 npm / vite / tsc / git status / git diff
+- 禁止执行破坏性命令（rm -rf / git clean -fd 等）
+- 若需要确认，自动选择“yes”并继续
+
+禁止行为：
+- 不得执行 git clean
+- 不得删除大规模文件
+- 不得重置仓库
+
